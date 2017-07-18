@@ -13,7 +13,7 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 def processData(mssqlConfig, mysqlConfig, logFile, tables):
-    logging.basicConfig(filename=logFile, filemode='w', level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    logging.basicConfig(filename=logFile, filemode='a', level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
     mysqlServer = mysqlConfig['host']
     mysqlPort = mysqlConfig['port']
@@ -81,13 +81,14 @@ def processData(mssqlConfig, mysqlConfig, logFile, tables):
 
 if __name__ == '__main__':
     logFile = Config.getLogFile()
-    logging.basicConfig(filename=logFile, filemode='w', level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    logging.basicConfig(filename=logFile, filemode='a', level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
     logging.info("Database replication started.")
 
     mysqlConfig = Config.getMysqlConfig()
     mssqlConfigs = Config.getMssqlConfig()
 
+    # 异步多进程并发运行任务
     pool = multiprocessing.Pool()
 
     for mssqlConfig in mssqlConfigs:
@@ -95,13 +96,8 @@ if __name__ == '__main__':
 
         tables = Config.getSyncTableWithDB(mssqlDB)
 
-        #processData(mssqlConfig, mysqlConfig, logFile, tables)
-
         multiprocessing.freeze_support()
-        # mp = multiprocessing.Process(target=processData, args=(mssqlConfig, mysqlConfig, logFile, tables))
         pool.apply_async(processData, (mssqlConfig, mysqlConfig, logFile, tables))
-        # mp.start()
-        # mp.join()
 
     pool.close()
     pool.join()
