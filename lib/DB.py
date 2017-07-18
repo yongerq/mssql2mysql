@@ -16,8 +16,6 @@ class DB(object):
         mysql = DB()
 
         conn = pymysql.connect(host=host, user=user, passwd=password, db=db, charset=charset, port=port, autocommit=True)
-        # conn = MySQLdb.connect(host=host, user=user, passwd=password, db=db, charset=charset, port=port, autocommit=True)
-        #mysql.cursor = MySQLdb.cursors.DictCursor(conn)
         mysql.conn = conn
         mysql.cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
 
@@ -46,7 +44,7 @@ class DB(object):
         if '' != where:
             sql += ' AND ' + where
 
-        print sql
+        # print sql
 
         self.cursor.execute(sql)
 
@@ -57,7 +55,7 @@ class DB(object):
         if '' != where:
             sql += ' AND ' + where
 
-        print sql
+        # print sql
 
         self.cursor.execute(sql)
 

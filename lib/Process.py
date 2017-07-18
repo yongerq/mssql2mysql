@@ -11,9 +11,9 @@ class Process:
         self.mssqlHandle = mssqlHandle
 
     def refreshData(self, myTable, msTable, pk):
-        mssqlRows = self.mssqlHandle.getMssqlRows(msTable)
-        mysqlRows = self.mysqlHandle.getMysqlRows(myTable)
-        blockSize = 1000
+        # mssqlRows = self.mssqlHandle.getMssqlRows(msTable)
+        # mysqlRows = self.mysqlHandle.getMysqlRows(myTable)
+        # blockSize = 1000
 
         mssqlHandleRows = self.mssqlHandle.fetchAll("SELECT * FROM {0}".format(msTable))
         mssqlHandleHeaders = self.mssqlHandle.getHeaders()

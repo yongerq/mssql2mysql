@@ -88,6 +88,8 @@ if __name__ == '__main__':
     mysqlConfig = Config.getMysqlConfig()
     mssqlConfigs = Config.getMssqlConfig()
 
+    pool = multiprocessing.Pool()
+
     for mssqlConfig in mssqlConfigs:
         mssqlDB = mssqlConfig['db']
 
@@ -96,8 +98,12 @@ if __name__ == '__main__':
         #processData(mssqlConfig, mysqlConfig, logFile, tables)
 
         multiprocessing.freeze_support()
-        mp = multiprocessing.Process(target=processData, args=(mssqlConfig, mysqlConfig, logFile, tables))
-        mp.start()
-        mp.join()
+        # mp = multiprocessing.Process(target=processData, args=(mssqlConfig, mysqlConfig, logFile, tables))
+        pool.apply_async(processData, (mssqlConfig, mysqlConfig, logFile, tables))
+        # mp.start()
+        # mp.join()
+
+    pool.close()
+    pool.join()
 
     logging.info("Database replication complete.")
