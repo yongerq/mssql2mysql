@@ -69,4 +69,4 @@ class Config:
     @staticmethod
     def getLogFile():
         # Log file config
-        return '/data/www/logs/apps/mscollector/default.log'
+        return '/data/www/logs/apps/mscollector/collector'

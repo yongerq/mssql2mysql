@@ -3,6 +3,7 @@
 import sys
 import logging
 import multiprocessing
+import datetime
 from lib.DB import DB
 from lib.Config import Config
 from lib.Process import Process as DataProcess
@@ -77,6 +78,8 @@ def processData(mssqlConfig, mysqlConfig, logFile, tables):
 
 if __name__ == '__main__':
     logFile = Config.getLogFile()
+    logFile += "." + datetime.datetime.now().strftime("%Y-%m-%d")
+
     logging.basicConfig(filename=logFile, filemode='a', level=logging.INFO, format='%(asctime)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
     logging.info("Database replication started.")

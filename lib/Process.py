@@ -31,15 +31,13 @@ class Process:
                 find = Utils.checkSameData(mysqlHandleResults, dict, pk)
             except Exception as e:
                 find = None
-                self.logging.debug("{0} record not found in destination database. Setting variable to none.")
+                self.logging.debug("Record not found in destination database. Setting variable to none. error:{}".format(e))
 
             if dict != find:
                 query = data.repQuery(dict, find, myTable, pk)
 
                 try:
                     self.mysqlHandle.query(query[0])
-
-                    # self.logging.info(query[1])
                 except Exception as e:
                     self.logging.error("{0} failed to update/insert with the following error: {1}".format(str(dict), e))
             else:

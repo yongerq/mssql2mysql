@@ -84,9 +84,6 @@ def updateStr(dict):
 def delQuery(pk_value, pk, table):
     query = "DELETE FROM `{0}` WHERE {1} = {2}".format(table, pk, pk_value)
 
-    # print 'delQuery query:'
-    # print query
-
     msg = "{0} deleted from the destination database.".format(pk_value)
 
     return query, msg
@@ -117,8 +114,6 @@ def repQuery(dict01, dict02, table, pk):
             query += " AND {} = '{}'"
             params.append(key)
             params.append(dict01[key])
-
-        # print params
 
         query = query.format(*params)
 
