@@ -56,10 +56,6 @@ def processData(mssqlConfig, mysqlConfig, logFile, tables):
 
         # Auto create table
         createSql = mssqlUtil.genCreateTableSql(table, myTable, dataTypes)
-
-        # print 'createSql:'
-        # print createSql
-
         mysqlHandle.getCursor().execute(createSql)
 
         # Update/Insert records in destination DB that do not match source DB.
