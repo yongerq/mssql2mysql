@@ -48,6 +48,11 @@ class MssqlUtil:
 
         return columns
 
+    def _createTableDefaultColumn(self):
+        sql = 'sdg_gmt_modify timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,'
+
+        return sql
+
     def genCreateTableSql(self, table, createTableName, dataTypes):
         attr = ""
         noLength = [56, 58, 61]
@@ -69,6 +74,9 @@ class MssqlUtil:
                 attr += col.name + ' ' + colType + ","
             else:
                 attr += col.name + ' ' + colType + "(" + str(col.length) + "),"
+
+        defaultCreateColumnSql = self._createTableDefaultColumn()
+        attr += defaultCreateColumnSql
 
         attr = attr[:-1]
 
